@@ -3,7 +3,7 @@ linear ordinary differential equations. It is an implementation of the algorithm
 described in the following preprint:
 
    Tara Stojimirovic and James Bremer, ``An accelerated frequency-indepedent solver 
-   for oscillatory differential equations.''  arXiv:?????.?????
+   for oscillatory differential equations.''  arXiv:2409.18487
 
 The code is written in Fortran and the implementation of our algorithm, which can be 
 found in the file freqind.f90, has as its only dependency the file chebyshev.f90
