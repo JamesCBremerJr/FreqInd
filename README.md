@@ -16,7 +16,7 @@ and executed via the command:
 The code for all but one of the numerical experiments described in the preprint mentioned 
 above is contained files experiment?.f90.  Most of these have no external dependences.  
 However, the code in experiment1.f90 depends on LAPACK, BLAS and the EXPOKIT package for 
-performing matrix exponentiation.  However, each experiment products python
+performing matrix exponentiation.  Moreover, each experiment produces python
 scripts for which generate plots, and these scripts depend on numpy and mathplotlib.
 
 The command ``make'' will cause all of the experiments to be complied and executed.  
