@@ -16,7 +16,6 @@
 
 module magnus
 
-
 interface
 
 subroutine magnus_fun1(t,val,der,pars)
@@ -119,14 +118,41 @@ call magnus_filon2(sqrt(eta),h,f0,fp0,fh,fph,valcos,valsin)
 theta2(1,2) = 1.0d0/eta * valsin
 theta2(2,1) = -valcos
 
-call DGPADM(6,2,1.0d0,theta2,2,work,100,ipiv,iexph,ns,iflag )
-omega(1,1) = work(iexph)
-omega(2,1) = work(iexph+1)
-omega(1,2) = work(iexph+2)
-omega(2,2) = work(iexph+3)
+! call DGPADM(6,2,1.0d0,theta2,2,work,100,ipiv,iexph,ns,iflag )
+! omega(1,1) = work(iexph)
+! omega(2,1) = work(iexph+1)
+! omega(1,2) = work(iexph+2)
+! omega(2,2) = work(iexph+3)
+
+call magnus_exp2x2(theta2,omega)
 
 x1 = matmul(omega,y1)
 y2 = matmul(theta1,x1)
+
+end subroutine
+
+subroutine magnus_exp2x2(amatr,expm)
+implicit double precision (a-h,o-z)
+double precision amatr(2,2),expm(2,2)
+a = amatr(1,1)
+b = amatr(1,2)
+c = amatr(2,1)
+d = amatr(2,2)
+
+expm(1,1) = exp((a+d)/0.2d1)*(Cosh(sqrt(0.4d1*b*c+(a-0.1d1*d)**2)/0.2d1)  &
+            +((a-0.1d1*d)*Sinh(sqrt(0.4d1*b*c+(a-  &
+            0.1d1*d)**2)/0.2d1))/Sqrt(0.4d1*b*c+(a-0.1d1*d)**2))
+
+expm(1,2) = (0.2d1*b*exp((a+d)/0.2d1)*Sinh(sqrt(0.4d1*b*c+(a-  &
+            0.1d1*d)**2)/0.2d1))/Sqrt(4*b*c+(a-d)**2)
+
+
+expm(2,1) = (0.2d1*c*exp((a+d)/0.2d1)*Sinh(sqrt(0.4d1*b*c+(a-  &
+             0.1d1*d)**2)/0.2d1))/Sqrt(4*b*c+(a-d)**2)
+
+expm(2,2) = exp((a+d)/0.2d1)*(Cosh(sqrt(0.4d1*b*c+(a-0.1d1*d)**2)/0.2d1)  &
+            +((-0.1d1*a+d)*Sinh(sqrt(0.4d1*b*c+(a-  &
+            0.1d1*d)**2)/0.2d1))/Sqrt(0.4d1*b*c+(a-0.1d1*d)**2))
 
 end subroutine
 
